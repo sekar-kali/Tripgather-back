@@ -1,8 +1,13 @@
 package org.wcs.tripgather.mapper;
 
 import org.springframework.stereotype.Component;
+import org.wcs.tripgather.dto.CategoryDTO;
 import org.wcs.tripgather.dto.EventDTO;
+import org.wcs.tripgather.model.Category;
 import org.wcs.tripgather.model.Event;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class EventMapper {
@@ -24,17 +29,21 @@ public class EventMapper {
         eventDTO.setUpdatedAt(event.getUpdatedAt());
         eventDTO.setMaxParticipant(event.getMaxParticipant());
         eventDTO.setImgUrl(event.getImgUrl());
-        eventDTO.setCategories(event.getCategories());
-
-        return eventDTO;
-
-        public Article convertToEntity(ArticleCreateDTO articleCreateDTO) {
-            Article article = new Article();
-            article.setTitle(articleCreateDTO.getTitle());
-            article.setContent(articleCreateDTO.getContent());
-
-            return article;
+        if (event.getCategories() != null && !event.getCategories().isEmpty()) {
+            eventDTO.setCategoryName(event.getCategories().stream()
+                    .map(categories -> {
+                        CategoryDTO categoryDTO = new CategoryDTO();
+                        categoryDTO.setId(categories.getId());
+                        categoryDTO.setName(categories.getName());
+                        return categoryDTO;
+                    })
+                    .collect(Collectors.toList()));
         }
+            return eventDTO;
+        }
+    }
+
+
 
         public Event convertToEntity(EventDTO eventDTO)
 

@@ -117,7 +117,7 @@ public class Event {
     public List<String> getImgUrl() { return imgUrl; }
     public void setImgUrl(List<String> imgUrl) { this.imgUrl = imgUrl; }
 
-    public List<CategoryDTO> getCategories() { return categories; }
+    public List<Category> getCategories() { return categories; }
     public void setCategories(List<Category> categories) { this.categories = categories; }
 
 }

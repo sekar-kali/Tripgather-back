@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import org.wcs.tripgather.dto.EventDTO;
+import org.wcs.tripgather.service.EventService;
 
 import java.util.List;
 
@@ -12,11 +13,12 @@ import java.util.List;
 @RequestMapping("/events")
 public class EventController {
 
-    @PostMapping
-    public ResponseEntity<EventDTO> createEvent(@RequestBody EventDTO eventDTO) {
-        EventDTO createdEvent = eventService.createEvent(eventDTO);
-        return new ResponseEntity<>(createdEvent, HttpStatus.CREATED);
+    private final EventService eventService;
+
+    public EventController(EventService eventService) {
+        this.eventService = eventService;
     }
+
 
     @GetMapping
     public ResponseEntity<List<EventDTO>> getAllEvents() {
@@ -30,6 +32,14 @@ public class EventController {
         return event != null ? new ResponseEntity<>(event, HttpStatus.OK)
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+
+    @PostMapping
+    public ResponseEntity<EventDTO> createEvent(@RequestBody EventDTO eventDTO) {
+        EventDTO createdEvent = eventService.createEvent(eventDTO);
+        return new ResponseEntity<>(createdEvent, HttpStatus.CREATED);
+    }
+
+
 
     @PutMapping("/{id}")
     public ResponseEntity<EventDTO> updateEvent(@PathVariable Long id, @RequestBody EventDTO eventDTO) {

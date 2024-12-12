@@ -1,9 +1,11 @@
 package org.wcs.tripgather.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import org.wcs.tripgather.dto.CategoryDTO;
 import org.wcs.tripgather.dto.EventDTO;
 import org.wcs.tripgather.service.EventService;
 
@@ -40,12 +42,13 @@ public class EventController {
         return new ResponseEntity<>(createdEvent, HttpStatus.CREATED);
     }
 
-
     @PutMapping("/{id}")
-    public ResponseEntity<EventDTO> updateEvent(@PathVariable Long id, @RequestBody EventDTO eventDTO) {
+    public ResponseEntity<EventDTO> updateEvent(@PathVariable Long id, @Valid @RequestBody EventDTO eventDTO) {
         EventDTO updatedEvent = eventService.updateEvent(id, eventDTO);
-        return updatedEvent != null ? new ResponseEntity<>(updatedEvent, HttpStatus.OK)
-                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        if (updatedEvent == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(updatedEvent);
     }
 
     @DeleteMapping("/{id}")

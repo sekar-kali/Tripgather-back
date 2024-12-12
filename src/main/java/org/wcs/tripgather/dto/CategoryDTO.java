@@ -12,6 +12,7 @@ public class CategoryDTO {
     private Long id;
     private List<EventDTO> events;
     public String img;
+    private String color;
 
     @NotBlank(message = "Le nom de la categorie ne peut pas être vide")
     @Size(min = 2, message = "Le nom est trop court (2 caractères ou plus)")
@@ -30,6 +31,9 @@ public class CategoryDTO {
 
     public String getImg() { return img; }
     public void setImg(String img) { this.img = img; }
+
+    public String getColor() { return color; }
+    public void setColor(String color) { this.color = color; }
 
     public @NotBlank(message = "Le nom de la catégorie ne peux pas être vide")
         @Size(min = 2, message = "Le nom est trop court (2 caractères ou plus)")

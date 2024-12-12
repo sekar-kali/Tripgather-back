@@ -1,11 +1,13 @@
 package org.wcs.tripgather.mapper;
 
+import org.springframework.stereotype.Component;
 import org.wcs.tripgather.dto.CategoryDTO;
 import org.wcs.tripgather.dto.EventDTO;
 import org.wcs.tripgather.model.Category;
 
 import java.util.stream.Collectors;
 
+@Component
 public class CategoryMapper {
 
     public CategoryDTO convertToDTO(Category category) {
@@ -13,6 +15,7 @@ public class CategoryMapper {
         categoryDTO.setId(category.getId());
         categoryDTO.setName(category.getName());
         categoryDTO.setImg(category.getImg());
+        categoryDTO.setColor(category.getColor());
 
         if (category.getEvents() != null) {
             categoryDTO.setEvents(category.getEvents().stream().map(event -> {
@@ -38,6 +41,9 @@ public class CategoryMapper {
     public Category convertToEntity(CategoryDTO categoryDTO) {
         Category category = new Category();
         category.setName(categoryDTO.getName());
+        category.setImg(categoryDTO.getImg());
+        category.setColor(categoryDTO.getColor());
+
 
         return category;
     }

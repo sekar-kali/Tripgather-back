@@ -1,7 +1,6 @@
 package org.wcs.tripgather.model;
 
 import jakarta.persistence.*;
-import org.wcs.tripgather.dto.CategoryDTO;
 
 import java.time.*;
 import java.util.List;

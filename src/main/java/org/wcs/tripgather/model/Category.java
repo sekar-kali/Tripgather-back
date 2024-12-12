@@ -20,7 +20,7 @@ public class Category {
     private List<User> users;
 
     @ManyToMany(mappedBy = "categories")
-    private List<Event> event;
+    private List<Event> events;
 
     //GETTERS & SETTERS
     public Long getId() { return id; }
@@ -38,6 +38,6 @@ public class Category {
     public List<User> getUsers() { return users; }
     public void setUsers(List<User> users) { this.users = users; }
 
-    public List<Event> getEvents() { return event; }
-    public void setEvents(List<Event> events) { this.event = events; }
+    public List<Event> getEvents() { return events; }
+    public void setEvents(List<Event> events) { this.events = events; }
 }

@@ -1,6 +1,7 @@
 package org.wcs.tripgather.dto;
 
-import org.wcs.tripgather.model.Category;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import org.wcs.tripgather.model.EventStatus;
 
 import java.time.LocalDate;
@@ -25,7 +26,7 @@ public class EventDTO {
     private LocalDate updatedAt;
     private int owner;
     private List<String> imgUrl;
-    private List<Category> categoryName;
+    private List<CategoryDTO> categories;
 
 
 
@@ -78,6 +79,18 @@ public class EventDTO {
     public List<String> getImgUrl() { return imgUrl; }
     public void setImgUrl(List<String> imgUrl) { this.imgUrl = imgUrl; }
 
-    public List<Category> getCategoryName() { return categoryName; }
-    public void setCategoryName(List<Category> categoryName) { this.categoryName = categoryName; }
+    public List<CategoryDTO> getCategories() { return categories; }
+    public void setCategories(List<CategoryDTO> categories) { this.categories = categories; }
+}
+
+
+
+
+
+class EventCreateDTO {
+
+    @NotBlank(message = "Le titre ne doit pas être vide")
+    @Size(min = 2, message = "Le titre est trop court")
+    private String title;
+
 }

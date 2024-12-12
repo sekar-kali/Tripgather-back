@@ -6,7 +6,7 @@ import org.wcs.tripgather.model.Event;
 import java.util.List;
 
 public interface EventRepository extends JpaRepository<Event, Long> {
-    List<Event> findByDestination(String destination);
+    List<Event> findByLocalisation(String localisation);
 
 
 }

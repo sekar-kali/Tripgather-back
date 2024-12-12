@@ -61,11 +61,12 @@ public class Event {
 
     @ManyToMany
     @JoinTable(
-            name = "event_categories",
+            name = "event_category",
             joinColumns = @JoinColumn(name = "event_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id")
     )
     private List<Category> categories;
+
 
 
     //GETTERS & SETTERS

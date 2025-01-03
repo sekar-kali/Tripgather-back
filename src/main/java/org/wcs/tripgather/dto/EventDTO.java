@@ -19,12 +19,12 @@ public class EventDTO {
     private LocalDate endRegistration;
     private LocalDate fromDate;
     private LocalDate toDate;
-    private int maxParticipant;
-    private boolean isMixte;
+    private Integer maxParticipant;
+    private Boolean isMixte;
     private String price;
     private String description;
-    private LocalDate updatedAt;
-    private int owner;
+    private LocalDateTime updatedAt;
+    private Integer owner;
     private List<String> imgUrl;
     private List<CategoryDTO> categories;
 
@@ -58,11 +58,11 @@ public class EventDTO {
     public LocalDate getToDate() { return toDate; }
     public void setToDate(LocalDate toDate) { this.toDate = toDate; }
 
-    public int getMaxParticipant() { return maxParticipant; }
-    public void setMaxParticipant(int maxParticipant) { this.maxParticipant = maxParticipant; }
+    public Integer getMaxParticipant() { return maxParticipant; }
+    public void setMaxParticipant(Integer maxParticipant) { this.maxParticipant = maxParticipant; }
 
-    public boolean isMixte() { return isMixte; }
-    public void setMixte(boolean mixte) { isMixte = mixte; }
+    public Boolean isMixte() { return isMixte; }
+    public void setMixte(Boolean mixte) { isMixte = mixte; }
 
     public String getPrice() { return price; }
     public void setPrice(String price) { this.price = price; }
@@ -70,27 +70,15 @@ public class EventDTO {
     public String getDescription() { return description; }
     public void setDescription(String description) { this.description = description; }
 
-    public LocalDate getUpdatedAt() { return updatedAt; }
-    public void setUpdatedAt(LocalDate updatedAt) { this.updatedAt = updatedAt; }
+    public LocalDateTime getUpdatedAt() { return updatedAt; }
+    public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
 
-    public int getOwner() { return owner; }
-    public void setOwner(int owner) { this.owner = owner; }
+    public Integer getOwner() { return owner; }
+    public void setOwner(Integer owner) { this.owner = owner; }
 
     public List<String> getImgUrl() { return imgUrl; }
     public void setImgUrl(List<String> imgUrl) { this.imgUrl = imgUrl; }
 
     public List<CategoryDTO> getCategories() { return categories; }
     public void setCategories(List<CategoryDTO> categories) { this.categories = categories; }
-}
-
-
-
-
-
-class EventCreateDTO {
-
-    @NotBlank(message = "Le titre ne doit pas être vide")
-    @Size(min = 2, message = "Le titre est trop court")
-    private String title;
-
 }

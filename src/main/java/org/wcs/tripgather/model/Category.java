@@ -2,6 +2,7 @@ package org.wcs.tripgather.model;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -21,6 +22,7 @@ public class Category {
 
     @ManyToMany(mappedBy = "categories")
     private List<Event> events;
+
 
     //GETTERS & SETTERS
     public Long getId() { return id; }

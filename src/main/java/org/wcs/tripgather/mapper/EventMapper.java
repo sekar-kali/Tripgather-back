@@ -31,23 +31,14 @@ public class EventMapper {
         eventDTO.setMaxParticipant(event.getMaxParticipant());
         eventDTO.setImgUrl(event.getImgUrl());
         if (event.getCategories() != null) {
-            // List<CategoryDTO> categoryDTOs = event.getCategories().stream()
-            //         .map(category -> {
-            //             CategoryDTO categoryDTO = new CategoryDTO();
-            //             categoryDTO.setId(category.getId());
-            //             categoryDTO.setName(category.getName());
-            //             return categoryDTO;
-            //         })
-            //         .collect(Collectors.toList());
-
             eventDTO.setCategories(event.getCategories().stream().filter(category -> category.getName() != null).map(category -> {
-                CategoryDTO categoryDTO = new CategoryDTO();
-                categoryDTO.setId(category.getId());
-                categoryDTO.setName(category.getName());
-                return categoryDTO;
-            })
-            .collect(Collectors.toList()));
-                }
+                        CategoryDTO categoryDTO = new CategoryDTO();
+                        categoryDTO.setId(category.getId());
+                        categoryDTO.setName(category.getName());
+                        return categoryDTO;
+                    })
+                    .collect(Collectors.toList()));
+        }
         return eventDTO;
     }
 

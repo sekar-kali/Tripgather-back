@@ -3,6 +3,7 @@ package org.wcs.tripgather.model;
 import jakarta.persistence.*;
 
 import java.time.*;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -38,10 +39,10 @@ public class Event {
     private LocalDate toDate;
 
     @Column(nullable = false)
-    private int maxParticipant;
+    private Integer maxParticipant;
 
     @Column(nullable = false)
-    private boolean isMixte;
+    private Boolean isMixte;
 
     @Column(nullable = false)
     private String price;
@@ -50,10 +51,10 @@ public class Event {
     private String description;
 
     @Column(nullable = false)
-    private LocalDate updatedAt;
+    private LocalDateTime updatedAt;
 
     @Column(nullable = false)
-    private int owner;
+    private Integer owner;
 
     @ElementCollection
     private List<String> imgUrl;
@@ -96,11 +97,11 @@ public class Event {
     public LocalDate getToDate() { return toDate; }
     public void setToDate(LocalDate toDate) { this.toDate = toDate; }
 
-    public int getMaxParticipant() { return maxParticipant; }
-    public void setMaxParticipant(int maxParticipant) { this.maxParticipant = maxParticipant; }
+    public Integer getMaxParticipant() { return maxParticipant; }
+    public void setMaxParticipant(Integer maxParticipant) { this.maxParticipant = maxParticipant; }
 
-    public boolean isMixte() { return isMixte; }
-    public void setMixte(boolean mixte) { isMixte = mixte; }
+    public Boolean isMixte() { return isMixte; }
+    public void setMixte(Boolean mixte) { isMixte = mixte; }
 
     public String getPrice() { return price; }
     public void setPrice(String price) { this.price = price; }
@@ -108,11 +109,11 @@ public class Event {
     public String getDescription() { return description; }
     public void setDescription(String description) { this.description = description; }
 
-    public LocalDate getUpdatedAt() { return updatedAt; }
-    public void setUpdatedAt(LocalDate updatedAt) { this.updatedAt = updatedAt; }
+    public LocalDateTime getUpdatedAt() { return updatedAt; }
+    public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
 
-    public int getOwner() { return owner; }
-    public void setOwner(int owner) { this.owner = owner; }
+    public Integer getOwner() { return owner; }
+    public void setOwner(Integer owner) { this.owner = owner; }
 
     public List<String> getImgUrl() { return imgUrl; }
     public void setImgUrl(List<String> imgUrl) { this.imgUrl = imgUrl; }

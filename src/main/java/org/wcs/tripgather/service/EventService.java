@@ -8,6 +8,7 @@ import org.wcs.tripgather.model.*;
 import org.wcs.tripgather.repository.*;
 import org.wcs.tripgather.dto.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -51,27 +52,26 @@ public class EventService {
     }
 
     public EventDTO updateEvent(Long id, EventDTO eventDTO) {
-        Optional<Event> optionalEvent = eventRepository.findById(id);
-        if (!optionalEvent.isPresent()) {
-            throw new RuntimeException("Event not found");
-        }
+        Event eventToUpdate = eventRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Event Not Found"));
 
-        Event eventToUpdate = optionalEvent.get();
-        eventToUpdate.setTitle(eventDTO.getTitle());
-        eventToUpdate.setDescription(eventDTO.getDescription());
-        eventToUpdate.setLocalisation(eventDTO.getLocalisation());
-        eventToUpdate.setFromDate(eventDTO.getFromDate());
-        eventToUpdate.setToDate(eventDTO.getToDate());
-        eventToUpdate.setStatus(eventDTO.getStatus());
-        eventToUpdate.setStartRegistration(eventDTO.getStartRegistration());
-        eventToUpdate.setEndRegistration(eventDTO.getEndRegistration());
-        eventToUpdate.setPrice(eventDTO.getPrice());
-        eventToUpdate.setOwner(eventDTO.getOwner());
-        eventToUpdate.setMaxParticipant(eventDTO.getMaxParticipant());
-        eventToUpdate.setMixte(eventDTO.isMixte());
-        eventToUpdate.setImgUrl(eventDTO.getImgUrl());
+        if (eventDTO.getTitle() != null) eventToUpdate.setTitle(eventDTO.getTitle());
+        if (eventDTO.getDescription() != null) eventToUpdate.setDescription(eventDTO.getDescription());
+        if (eventDTO.getLocalisation() != null) eventToUpdate.setLocalisation(eventDTO.getLocalisation());
+        if (eventDTO.getFromDate() != null) eventToUpdate.setFromDate(eventDTO.getFromDate());
+        if (eventDTO.getToDate() != null) eventToUpdate.setToDate(eventDTO.getToDate());
+        if (eventDTO.getStatus() != null) eventToUpdate.setStatus(eventDTO.getStatus());
+        if (eventDTO.getStartRegistration() != null) eventToUpdate.setStartRegistration(eventDTO.getStartRegistration());
+        if (eventDTO.getEndRegistration() != null) eventToUpdate.setEndRegistration(eventDTO.getEndRegistration());
+        if (eventDTO.getPrice() != null) eventToUpdate.setPrice(eventDTO.getPrice());
+        if (eventDTO.getOwner() != null) eventToUpdate.setOwner(eventDTO.getOwner());
+        if (eventDTO.getMaxParticipant() != null) eventToUpdate.setMaxParticipant(eventDTO.getMaxParticipant());
+        if (eventDTO.isMixte() != null) eventToUpdate.setMixte(eventDTO.isMixte());
+        if (eventDTO.getImgUrl() != null) eventToUpdate.setImgUrl(eventDTO.getImgUrl());
 
+        eventToUpdate.setUpdatedAt(LocalDateTime.now());
         Event updatedEvent = eventRepository.save(eventToUpdate);
+
         return eventMapper.convertToDTO(updatedEvent);
     }
 
@@ -80,10 +80,8 @@ public class EventService {
      if (event == null) {
         return false;
      }
-
      eventRepository.delete(event);
         return false;
     }
-
 }
 

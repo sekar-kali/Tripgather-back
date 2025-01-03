@@ -40,7 +40,6 @@ public class CategoryController {
     public ResponseEntity<CategoryDTO> addCategory(@Valid @RequestBody CategoryDTO categoryDTO) {
         CategoryDTO categorySaved = categoryService.addCategory(categoryDTO);
 
-
         return ResponseEntity.status(HttpStatus.CREATED).body(categorySaved);
     }
 

@@ -47,6 +47,9 @@ public class EventService {
 
     public EventDTO createEvent(EventDTO eventDTO) {
         Event event = eventMapper.convertToEntity(eventDTO);
+
+        event.setCreatedAt(LocalDateTime.now());
+        event.setUpdatedAt(LocalDateTime.now());
         Event savedEvent = eventRepository.save(event);
         return eventMapper.convertToDTO(savedEvent);
     }

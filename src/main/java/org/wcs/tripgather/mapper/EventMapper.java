@@ -5,12 +5,20 @@ import org.wcs.tripgather.dto.CategoryDTO;
 import org.wcs.tripgather.dto.EventDTO;
 import org.wcs.tripgather.model.Category;
 import org.wcs.tripgather.model.Event;
+import org.wcs.tripgather.repository.CategoryRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
 public class EventMapper {
+
+    private final CategoryRepository categoryRepository;
+
+    public EventMapper(CategoryRepository categoryRepository) {
+        this.categoryRepository = categoryRepository;
+    }
 
     public EventDTO convertToDTO(Event event) {
         EventDTO eventDTO = new EventDTO();
@@ -57,10 +65,22 @@ public class EventMapper {
         event.setEndRegistration(eventDTO.getEndRegistration());
         event.setPrice(eventDTO.getPrice());
         event.setOwner(eventDTO.getOwner());
-        event.setCreatedAt(eventDTO.getCreatedAt());
-        event.setUpdatedAt(eventDTO.getUpdatedAt());
         event.setMaxParticipant(eventDTO.getMaxParticipant());
         event.setImgUrl(eventDTO.getImgUrl());
+        if (eventDTO.getCategories() != null && !eventDTO.getCategories().isEmpty()) {
+            List<Category> categories = new ArrayList<>();
+            for (CategoryDTO categoryDTO : eventDTO.getCategories()) {
+                if (categoryDTO.getId() != null) {
+                    Category category = categoryRepository.findById(categoryDTO.getId()).orElse(null);
+                    if (category != null) {
+                        categories.add(category);
+                    } else {
+                        return null;
+                    }
+                }
+            }
+            event.setCategories(categories);
+        }
         return event;
     }
 }

@@ -43,6 +43,8 @@ public class EventMapper {
                         CategoryDTO categoryDTO = new CategoryDTO();
                         categoryDTO.setId(category.getId());
                         categoryDTO.setName(category.getName());
+                        categoryDTO.setColor(category.getColor());
+                        categoryDTO.setImg(category.getImg());
                         return categoryDTO;
                     })
                     .collect(Collectors.toList()));

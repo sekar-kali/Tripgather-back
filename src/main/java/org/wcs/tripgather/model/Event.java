@@ -29,6 +29,10 @@ public class Event {
     @Column(nullable = false)
     private LocalDate startRegistration;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Gender gender;
+
     @Column(nullable = false)
     private LocalDate endRegistration;
 
@@ -103,6 +107,13 @@ public class Event {
     public Boolean isMixte() { return isMixte; }
     public void setMixte(Boolean mixte) { isMixte = mixte; }
 
+    public Gender getGender() {
+        return gender;
+    }
+
+    public void setGender(Gender gender) {
+        this.gender = gender;
+    }
     public String getPrice() { return price; }
     public void setPrice(String price) { this.price = price; }
 

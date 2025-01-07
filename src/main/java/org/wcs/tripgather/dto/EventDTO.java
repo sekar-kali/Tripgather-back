@@ -3,6 +3,7 @@ package org.wcs.tripgather.dto;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import org.wcs.tripgather.model.EventStatus;
+import org.wcs.tripgather.model.Gender;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -21,6 +22,7 @@ public class EventDTO {
     private LocalDate toDate;
     private Integer maxParticipant;
     private Boolean isMixte;
+    private Gender gender;
     private String price;
     private String description;
     private LocalDateTime updatedAt;
@@ -64,6 +66,13 @@ public class EventDTO {
     public Boolean isMixte() { return isMixte; }
     public void setMixte(Boolean mixte) { isMixte = mixte; }
 
+    public Gender getGender() {
+        return gender;
+    }
+
+    public void setGender(Gender gender) {
+        this.gender = gender;
+    }
     public String getPrice() { return price; }
     public void setPrice(String price) { this.price = price; }
 

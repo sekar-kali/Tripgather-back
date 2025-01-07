@@ -29,6 +29,7 @@ public class EventMapper {
         eventDTO.setFromDate(event.getFromDate());
         eventDTO.setToDate(event.getToDate());
         eventDTO.setStatus(event.getStatus());
+        eventDTO.setGender(event.getGender());
         eventDTO.setMixte(event.isMixte());
         eventDTO.setStartRegistration(event.getStartRegistration());
         eventDTO.setEndRegistration(event.getEndRegistration());
@@ -60,6 +61,7 @@ public class EventMapper {
         event.setFromDate(eventDTO.getFromDate());
         event.setToDate(eventDTO.getToDate());
         event.setStatus(eventDTO.getStatus());
+        event.setGender(eventDTO.getGender());
         event.setMixte(eventDTO.isMixte());
         event.setStartRegistration(eventDTO.getStartRegistration());
         event.setEndRegistration(eventDTO.getEndRegistration());

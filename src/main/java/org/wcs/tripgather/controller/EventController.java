@@ -12,7 +12,8 @@ import org.wcs.tripgather.service.EventService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/events")
+@RequestMapping("/api/events")
+@CrossOrigin(origins = "http://localhost:4200")
 public class EventController {
 
     private final EventService eventService;

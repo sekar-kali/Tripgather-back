@@ -27,8 +27,9 @@ public class User {
     @Column(nullable = false)
     private String imageUrl;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Boolean gender;
+    private Gender gender;
 
     @Lob
     @Column(columnDefinition = "TEXT")
@@ -103,14 +104,13 @@ public class User {
         this.imageUrl = imageUrl;
     }
 
-    public Boolean getGender() {
+    public Gender getGender() {
         return gender;
     }
 
-    public void setGender(Boolean gender) {
+    public void setGender(Gender gender) {
         this.gender = gender;
     }
-
     public String getBio() {
         return bio;
     }

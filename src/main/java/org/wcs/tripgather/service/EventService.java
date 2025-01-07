@@ -70,6 +70,7 @@ public class EventService {
         if (eventDTO.getOwner() != null) eventToUpdate.setOwner(eventDTO.getOwner());
         if (eventDTO.getMaxParticipant() != null) eventToUpdate.setMaxParticipant(eventDTO.getMaxParticipant());
         if (eventDTO.isMixte() != null) eventToUpdate.setMixte(eventDTO.isMixte());
+        if (eventDTO.getGender() != null) eventToUpdate.setGender(eventDTO.getGender());
         if (eventDTO.getImgUrl() != null) eventToUpdate.setImgUrl(eventDTO.getImgUrl());
 
         eventToUpdate.setUpdatedAt(LocalDateTime.now());

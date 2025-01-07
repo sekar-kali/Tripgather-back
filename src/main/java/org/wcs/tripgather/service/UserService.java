@@ -7,6 +7,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.wcs.tripgather.exception.EmailAlreadyInUseException;
 import org.wcs.tripgather.exception.UserNotFoundException;
+import org.wcs.tripgather.model.Gender;
 import org.wcs.tripgather.model.User;
 import org.wcs.tripgather.repository.UserRepository;
 
@@ -25,7 +26,7 @@ public class UserService {
     private static final Logger logger = LoggerFactory.getLogger(UserService.class);
 
     public User register(String email, String password, String bio, String country, String firstName,
-                         boolean gender, String imageUrl, String lastName, Date birthDate) {
+                         Gender gender, String imageUrl, String lastName, Date birthDate) {
 
         String hashedPassword = passwordEncoder.encode(password);
 

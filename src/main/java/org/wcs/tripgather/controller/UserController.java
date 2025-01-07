@@ -16,6 +16,8 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
+
+    //CRUD
     @GetMapping("/{id}")
     public ResponseEntity<User> getUserById(@PathVariable Long id) {
         Optional<User> user = userRepository.findById(id);

@@ -28,10 +28,16 @@ public class UserService {
     public User register(String email, String password, String bio, String country, String firstName,
                          Gender gender, String imageUrl, String lastName, Date birthDate) {
 
+        // Check for email uniqueness
+        if (userRepository.existsByEmailIgnoreCase(email)) {
+            logger.warn("Registration failed: Email already in use - {}", email);
+            throw new EmailAlreadyInUseException("Email is already in use: " + email);
+        }
+
         String hashedPassword = passwordEncoder.encode(password);
 
         User user = new User();
-        user.setEmail(email);
+        user.setEmail(email.toLowerCase());
         user.setPassword(hashedPassword);
         user.setBio(bio);
         user.setCountry(country);
@@ -41,12 +47,13 @@ public class UserService {
         user.setLastName(lastName);
         user.setBirthDate(birthDate);
 
+        logger.info("Registering user: {}", email);
         return userRepository.save(user);
     }
 
-
     public User findByEmail(String email) {
-        return userRepository.findByEmail(email)
+        logger.info("Fetching user with email: {}", email);
+        return userRepository.findByEmailIgnoreCase(email.toLowerCase())
                 .orElseThrow(() -> new UserNotFoundException("User not found with email: " + email));
     }
 

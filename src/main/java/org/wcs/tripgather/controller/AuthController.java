@@ -1,6 +1,7 @@
 package org.wcs.tripgather.controller;
 
 import org.slf4j.Logger;
+import org.springframework.http.HttpStatus;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -31,10 +32,26 @@ public class AuthController {
     private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
 
     @PostMapping("/register")
-    public ResponseEntity<User> registerUser(@RequestBody User user) {
-        logger.info("Attempting to register user: {}", user);
-        try {
+    public ResponseEntity<?> registerUser(@RequestBody User user) {
+        logger.info("Attempting to register user: {}", user.getEmail());
 
+        // Normalize email
+        String normalizedEmail = user.getEmail().toLowerCase();
+        user.setEmail(normalizedEmail);
+
+        try {
+            // Validate input data
+            if (user.getPassword() == null || user.getPassword().isEmpty()) {
+                logger.warn("Password is missing for user: {}", user.getEmail());
+                return ResponseEntity.badRequest().body(Map.of("message", "Password is required"));
+            }
+
+            if (user.getEmail() == null || user.getEmail().isEmpty()) {
+                logger.warn("Email is missing for user registration");
+                return ResponseEntity.badRequest().body(Map.of("message", "Email is required"));
+            }
+
+            // Register the user
             User savedUser = userService.register(
                     user.getEmail(),
                     user.getPassword(),
@@ -48,15 +65,22 @@ public class AuthController {
             );
 
             logger.info("User registered successfully: {}", savedUser.getEmail());
-            return ResponseEntity.status(201).body(savedUser);
+
+            // Return a successful response with the saved user's ID
+            Map<String, Object> response = new HashMap<>();
+            response.put("id", savedUser.getId());
+            response.put("message", "User registered successfully");
+
+            return ResponseEntity.status(201).body(response);
         } catch (EmailAlreadyInUseException e) {
             logger.warn("Email already in use: {}", user.getEmail());
-            return ResponseEntity.badRequest().body(null);
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(Map.of("message", "Email is already in use"));
         } catch (Exception e) {
-            logger.error("Error during registration: {}", e.getMessage(), e);
-            return ResponseEntity.status(500).body(null);
+            logger.error("Error during registration for user {}: {}", user.getEmail(), e.getMessage(), e);
+            return ResponseEntity.status(500).body(Map.of("message", "Internal server error"));
         }
     }
+
 
 
     @PostMapping("/login")

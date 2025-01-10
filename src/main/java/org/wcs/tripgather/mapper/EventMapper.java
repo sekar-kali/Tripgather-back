@@ -5,7 +5,9 @@ import org.wcs.tripgather.dto.CategoryDTO;
 import org.wcs.tripgather.dto.EventDTO;
 import org.wcs.tripgather.model.Category;
 import org.wcs.tripgather.model.Event;
+import org.wcs.tripgather.model.Gender;
 import org.wcs.tripgather.repository.CategoryRepository;
+import org.wcs.tripgather.repository.EventRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,9 +17,11 @@ import java.util.stream.Collectors;
 public class EventMapper {
 
     private final CategoryRepository categoryRepository;
+    private final EventRepository eventRepository;
 
-    public EventMapper(CategoryRepository categoryRepository) {
+    public EventMapper(CategoryRepository categoryRepository, EventRepository eventRepository) {
         this.categoryRepository = categoryRepository;
+        this.eventRepository = eventRepository;
     }
 
     public EventDTO convertToDTO(Event event) {
@@ -86,5 +90,12 @@ public class EventMapper {
             event.setCategories(categories);
         }
         return event;
+    }
+
+    public List<EventDTO> getFilteredEvents(String localisation, Gender gender,String title, String fromDate, String toDate) {
+        List<Event> filteredEvents = eventRepository.findFilteredEvents(localisation, gender,title, fromDate, toDate);  // Utilisation de l'instance
+        return filteredEvents.stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
     }
 }

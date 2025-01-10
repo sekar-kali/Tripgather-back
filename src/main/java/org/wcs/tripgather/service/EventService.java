@@ -10,7 +10,6 @@ import org.wcs.tripgather.dto.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -87,5 +86,14 @@ public class EventService {
      eventRepository.delete(event);
         return false;
     }
+
+    public List<EventDTO> getFilteredEvents(String localisation, String genderStr,String title, String fromDate, String toDate) {
+        Gender gender = genderStr != null ? Gender.valueOf(genderStr) : null;
+        List<Event> filteredEvents = eventRepository.findFilteredEvents(localisation, gender,title, fromDate, toDate);
+        return filteredEvents.stream()
+                .map(eventMapper::convertToDTO)
+                .collect(Collectors.toList());
+    }
+
 }
 

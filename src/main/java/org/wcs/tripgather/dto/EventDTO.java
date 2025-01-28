@@ -21,14 +21,13 @@ public class EventDTO {
     private LocalDate fromDate;
     private LocalDate toDate;
     private Integer maxParticipant;
-    private Boolean isMixte;
     private Gender gender;
     private String price;
     private String description;
     private LocalDateTime updatedAt;
-    private Integer owner;
     private List<String> imgUrl;
     private List<CategoryDTO> categories;
+    private UserDTO owner;
 
 
 
@@ -63,16 +62,13 @@ public class EventDTO {
     public Integer getMaxParticipant() { return maxParticipant; }
     public void setMaxParticipant(Integer maxParticipant) { this.maxParticipant = maxParticipant; }
 
-    public Boolean isMixte() { return isMixte; }
-    public void setMixte(Boolean mixte) { isMixte = mixte; }
-
     public Gender getGender() {
         return gender;
     }
-
     public void setGender(Gender gender) {
         this.gender = gender;
     }
+
     public String getPrice() { return price; }
     public void setPrice(String price) { this.price = price; }
 
@@ -82,12 +78,12 @@ public class EventDTO {
     public LocalDateTime getUpdatedAt() { return updatedAt; }
     public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
 
-    public Integer getOwner() { return owner; }
-    public void setOwner(Integer owner) { this.owner = owner; }
-
     public List<String> getImgUrl() { return imgUrl; }
     public void setImgUrl(List<String> imgUrl) { this.imgUrl = imgUrl; }
 
     public List<CategoryDTO> getCategories() { return categories; }
     public void setCategories(List<CategoryDTO> categories) { this.categories = categories; }
+
+    public UserDTO getOwner() { return owner; }
+    public void setOwner(UserDTO owner) { this.owner = owner; }
 }

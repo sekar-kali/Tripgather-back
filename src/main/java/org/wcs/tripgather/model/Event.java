@@ -46,9 +46,6 @@ public class Event {
     private Integer maxParticipant;
 
     @Column(nullable = false)
-    private Boolean isMixte;
-
-    @Column(nullable = false)
     private String price;
 
     @Column(columnDefinition = "TEXT")
@@ -56,9 +53,6 @@ public class Event {
 
     @Column(nullable = false)
     private LocalDateTime updatedAt;
-
-    @Column(nullable = false)
-    private Integer owner;
 
     @ElementCollection
     private List<String> imgUrl;
@@ -70,6 +64,13 @@ public class Event {
             inverseJoinColumns = @JoinColumn(name = "category_id")
     )
     private List<Category> categories;
+
+    @ManyToOne
+    @JoinColumn(
+            name = "owner_id",
+            nullable = false
+    )
+    private User owner;
 
 
 
@@ -104,16 +105,10 @@ public class Event {
     public Integer getMaxParticipant() { return maxParticipant; }
     public void setMaxParticipant(Integer maxParticipant) { this.maxParticipant = maxParticipant; }
 
-    public Boolean isMixte() { return isMixte; }
-    public void setMixte(Boolean mixte) { isMixte = mixte; }
 
-    public Gender getGender() {
-        return gender;
-    }
+    public Gender getGender() { return gender; }
+    public void setGender(Gender gender) { this.gender = gender; }
 
-    public void setGender(Gender gender) {
-        this.gender = gender;
-    }
     public String getPrice() { return price; }
     public void setPrice(String price) { this.price = price; }
 
@@ -123,13 +118,12 @@ public class Event {
     public LocalDateTime getUpdatedAt() { return updatedAt; }
     public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
 
-    public Integer getOwner() { return owner; }
-    public void setOwner(Integer owner) { this.owner = owner; }
-
     public List<String> getImgUrl() { return imgUrl; }
     public void setImgUrl(List<String> imgUrl) { this.imgUrl = imgUrl; }
 
     public List<Category> getCategories() { return categories; }
     public void setCategories(List<Category> categories) { this.categories = categories; }
 
+    public User getOwner() { return owner; }
+    public void setOwner(User owner) { this.owner = owner; }
 }

@@ -3,16 +3,15 @@ package org.wcs.tripgather.dto;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
-import java.util.List;
-
 
 public class CategoryDTO {
 
 
     private Long id;
-    private List<EventDTO> events;
-    public String img;
+    private String img;
     private String color;
+    private Long eventCount;
+
 
     @NotBlank(message = "Le nom de la categorie ne peut pas être vide")
     @Size(min = 2, message = "Le nom est trop court (2 caractères ou plus)")
@@ -20,20 +19,18 @@ public class CategoryDTO {
 
 
 
-
-
     //Getters et Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
-
-    public List<EventDTO> getEvents() { return events; }
-    public void setEvents(List<EventDTO> eventTitle) { this.events = eventTitle; }
 
     public String getImg() { return img; }
     public void setImg(String img) { this.img = img; }
 
     public String getColor() { return color; }
     public void setColor(String color) { this.color = color; }
+
+    public Long getEventCount() { return eventCount; }
+    public void setEventCount(Long eventCount) { this.eventCount = eventCount; }
 
     public @NotBlank(message = "Le nom de la catégorie ne peux pas être vide")
         @Size(min = 2, message = "Le nom est trop court (2 caractères ou plus)")

@@ -13,46 +13,55 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-
 @Service
 public class EventService {
 
     private final EventRepository eventRepository;
     private final EventMapper eventMapper;
-
+    private final UserRepository userRepository;
+    private final CategoryRepository categoryRepository;
 
     public EventService(
             EventRepository eventRepository,
             EventMapper eventMapper,
+            UserRepository userRepository,
             CategoryRepository categoryRepository) {
         this.eventRepository = eventRepository;
         this.eventMapper = eventMapper;
+        this.userRepository = userRepository;
+        this.categoryRepository = categoryRepository;
     }
+
 
     public List<EventDTO> getAllEvents() {
-       return eventRepository.findAll()
-               .stream()
-               .map(eventMapper::convertToDTO)
-               .collect(Collectors.toList());
+        return eventRepository.findAll()
+                .stream()
+                .map(eventMapper::convertToDTO)
+                .collect(Collectors.toList());
     }
 
+
     public EventDTO getEventById(long id) {
-        Event event = eventRepository.findById(id).orElseThrow(()
-        ->new UserNotFoundException("Le voyage avec l'id " + id + " n'a pas été trouvé"));
-        if (event == null) {
-            return null;
-        }
+        Event event = eventRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Le voyage avec l'id " + id + " n'a pas été trouvé"));
         return eventMapper.convertToDTO(event);
     }
 
+
     public EventDTO createEvent(EventDTO eventDTO) {
         Event event = eventMapper.convertToEntity(eventDTO);
-
+        if (eventDTO.getOwner() != null && eventDTO.getOwner().getId() != null) {
+            User owner = userRepository.findById(eventDTO.getOwner().getId())
+                    .orElseThrow(() -> new RuntimeException("L'utilisateur avec l'id " + eventDTO.getOwner().getId() + " n'a pas été trouvé"));
+            event.setOwner(owner);
+        }
         event.setCreatedAt(LocalDateTime.now());
         event.setUpdatedAt(LocalDateTime.now());
         Event savedEvent = eventRepository.save(event);
+
         return eventMapper.convertToDTO(savedEvent);
     }
+
 
     public EventDTO updateEvent(Long id, EventDTO eventDTO) {
         Event eventToUpdate = eventRepository.findById(id)
@@ -67,25 +76,29 @@ public class EventService {
         if (eventDTO.getStartRegistration() != null) eventToUpdate.setStartRegistration(eventDTO.getStartRegistration());
         if (eventDTO.getEndRegistration() != null) eventToUpdate.setEndRegistration(eventDTO.getEndRegistration());
         if (eventDTO.getPrice() != null) eventToUpdate.setPrice(eventDTO.getPrice());
-        if (eventDTO.getOwner() != null) eventToUpdate.setOwner(eventDTO.getOwner());
         if (eventDTO.getMaxParticipant() != null) eventToUpdate.setMaxParticipant(eventDTO.getMaxParticipant());
-        if (eventDTO.isMixte() != null) eventToUpdate.setMixte(eventDTO.isMixte());
         if (eventDTO.getGender() != null) eventToUpdate.setGender(eventDTO.getGender());
         if (eventDTO.getImgUrl() != null) eventToUpdate.setImgUrl(eventDTO.getImgUrl());
-
+        if (eventDTO.getOwner() != null && eventDTO.getOwner().getId() != null) {
+            User owner = userRepository.findById(eventDTO.getOwner().getId())
+                    .orElseThrow(() -> new RuntimeException("L'utilisateur avec l'id " + eventDTO.getOwner().getId() + " n'a pas été trouvé"));
+            eventToUpdate.setOwner(owner);
+        }
         eventToUpdate.setUpdatedAt(LocalDateTime.now());
         Event updatedEvent = eventRepository.save(eventToUpdate);
 
         return eventMapper.convertToDTO(updatedEvent);
     }
 
+
     public boolean deleteEvent(Long id) {
-     Event event = eventRepository.findById(id).orElse(null);
-     if (event == null) {
-        return false;
-     }
-     eventRepository.delete(event);
-        return false;
+        Event event = eventRepository.findById(id).orElse(null);
+        if (event == null) {
+            return false;
+        }
+        eventRepository.delete(event);
+        return true;
     }
 }
+
 

@@ -3,12 +3,15 @@ package org.wcs.tripgather.mapper;
 import org.springframework.stereotype.Component;
 import org.wcs.tripgather.dto.CategoryDTO;
 import org.wcs.tripgather.dto.EventDTO;
+import org.wcs.tripgather.dto.UserDTO;
 import org.wcs.tripgather.model.Category;
 import org.wcs.tripgather.model.Event;
+import org.wcs.tripgather.model.User;
 import org.wcs.tripgather.repository.CategoryRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Component
@@ -30,26 +33,26 @@ public class EventMapper {
         eventDTO.setToDate(event.getToDate());
         eventDTO.setStatus(event.getStatus());
         eventDTO.setGender(event.getGender());
-        eventDTO.setMixte(event.isMixte());
         eventDTO.setStartRegistration(event.getStartRegistration());
         eventDTO.setEndRegistration(event.getEndRegistration());
         eventDTO.setPrice(event.getPrice());
-        eventDTO.setOwner(event.getOwner());
+        if (eventDTO.getOwner() != null && eventDTO.getOwner().getId() != null) {
+            User owner = new User();
+            owner.setId(eventDTO.getOwner().getId());
+            event.setOwner(owner);
+        }
         eventDTO.setCreatedAt(event.getCreatedAt());
         eventDTO.setUpdatedAt(event.getUpdatedAt());
         eventDTO.setMaxParticipant(event.getMaxParticipant());
         eventDTO.setImgUrl(event.getImgUrl());
-        if (event.getCategories() != null) {
-            eventDTO.setCategories(event.getCategories().stream().filter(category -> category.getName() != null).map(category -> {
-                        CategoryDTO categoryDTO = new CategoryDTO();
-                        categoryDTO.setId(category.getId());
-                        categoryDTO.setName(category.getName());
-                        categoryDTO.setColor(category.getColor());
-                        categoryDTO.setImg(category.getImg());
-                        return categoryDTO;
-                    })
-                    .collect(Collectors.toList()));
+        if (eventDTO.getCategories() != null && !eventDTO.getCategories().isEmpty()) {
+            List<Category> categories = eventDTO.getCategories().stream()
+                    .map(categoryDTO -> categoryRepository.findById(categoryDTO.getId()).orElse(null))
+                    .filter(Objects::nonNull)
+                    .collect(Collectors.toList());
+            event.setCategories(categories);
         }
+
         return eventDTO;
     }
 
@@ -64,27 +67,25 @@ public class EventMapper {
         event.setToDate(eventDTO.getToDate());
         event.setStatus(eventDTO.getStatus());
         event.setGender(eventDTO.getGender());
-        event.setMixte(eventDTO.isMixte());
         event.setStartRegistration(eventDTO.getStartRegistration());
         event.setEndRegistration(eventDTO.getEndRegistration());
         event.setPrice(eventDTO.getPrice());
-        event.setOwner(eventDTO.getOwner());
         event.setMaxParticipant(eventDTO.getMaxParticipant());
         event.setImgUrl(eventDTO.getImgUrl());
+        if (eventDTO.getOwner() != null && eventDTO.getOwner().getId() != null) {
+            User owner = new User();
+            owner.setId(eventDTO.getOwner().getId());
+            event.setOwner(owner);
+        }
         if (eventDTO.getCategories() != null && !eventDTO.getCategories().isEmpty()) {
-            List<Category> categories = new ArrayList<>();
-            for (CategoryDTO categoryDTO : eventDTO.getCategories()) {
-                if (categoryDTO.getId() != null) {
-                    Category category = categoryRepository.findById(categoryDTO.getId()).orElse(null);
-                    if (category != null) {
-                        categories.add(category);
-                    } else {
-                        return null;
-                    }
-                }
-            }
+            List<Category> categories = eventDTO.getCategories().stream()
+                    .map(categoryDTO -> categoryRepository.findById(categoryDTO.getId())
+                            .orElseThrow(() -> new IllegalArgumentException("Category not found for ID: " + categoryDTO.getId())))
+                    .collect(Collectors.toList());
             event.setCategories(categories);
         }
+
         return event;
     }
+
 }

@@ -1,14 +1,24 @@
 package org.wcs.tripgather.mapper;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.wcs.tripgather.dto.CategoryDTO;
 import org.wcs.tripgather.dto.EventDTO;
 import org.wcs.tripgather.model.Category;
+import org.wcs.tripgather.repository.EventRepository;
 
 import java.util.stream.Collectors;
 
 @Component
 public class CategoryMapper {
+
+    private final EventRepository eventRepository;  // Injecter EventRepository
+
+    // Injection du EventRepository via le constructeur
+    @Autowired
+    public CategoryMapper(EventRepository eventRepository) {
+        this.eventRepository = eventRepository;
+    }
 
     public CategoryDTO convertToDTO(Category category) {
         CategoryDTO categoryDTO = new CategoryDTO();
@@ -17,24 +27,9 @@ public class CategoryMapper {
         categoryDTO.setImg(category.getImg());
         categoryDTO.setColor(category.getColor());
 
-        if (category.getEvents() != null) {
-            categoryDTO.setEvents(category.getEvents().stream().map(event -> {
-                EventDTO eventDTO = new EventDTO();
-                eventDTO.setId(event.getId());
-                eventDTO.setTitle(event.getTitle());
-                eventDTO.setDescription(event.getDescription());
-                eventDTO.setImgUrl(event.getImgUrl());
-                eventDTO.setLocalisation(event.getLocalisation());
-                eventDTO.setMixte(event.isMixte());
-                eventDTO.setOwner(event.getOwner());
-                eventDTO.setPrice(event.getPrice());
-                eventDTO.setFromDate(event.getFromDate());
-                eventDTO.setToDate(event.getToDate());
-                eventDTO.setStartRegistration(event.getStartRegistration());
-                eventDTO.setEndRegistration(event.getEndRegistration());
-                return eventDTO;
-            }).collect(Collectors.toList()));
-        }
+        long eventCount = eventRepository.countByCategoriesId(category.getId());
+        categoryDTO.setEventCount(eventCount);
+
         return categoryDTO;
     }
 
@@ -44,8 +39,8 @@ public class CategoryMapper {
         category.setImg(categoryDTO.getImg());
         category.setColor(categoryDTO.getColor());
 
-
         return category;
     }
-
 }
+
+

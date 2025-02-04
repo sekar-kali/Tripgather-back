@@ -47,6 +47,17 @@ public class EventMapper {
             ownerDTO.setCountry(event.getOwner().getCountry());
             eventDTO.setOwner(ownerDTO);
         }
+        if (event.getMembers() != null && !event.getMembers().isEmpty()) {
+            eventDTO.setMembers(event.getMembers()
+                    .stream()
+                    .map(user -> {
+                        UserDTO userDTO = new UserDTO();
+                        userDTO.setId(user.getId());
+                        userDTO.setEmail(user.getEmail());
+                        return userDTO;
+                    })
+                    .collect(Collectors.toList()));
+        }
         eventDTO.setCreatedAt(event.getCreatedAt());
         eventDTO.setUpdatedAt(event.getUpdatedAt());
         eventDTO.setMaxParticipant(event.getMaxParticipant());
@@ -82,6 +93,16 @@ public class EventMapper {
             User owner = new User();
             owner.setId(eventDTO.getOwner().getId());
             event.setOwner(owner);
+        }
+        if (eventDTO.getMembers() != null && !eventDTO.getMembers().isEmpty()) {
+            event.setMembers(eventDTO.getMembers()
+                    .stream()
+                    .map(userDTO -> {
+                        User user = new User();
+                        user.setId(userDTO.getId());
+                        return user;
+                    })
+                    .collect(Collectors.toList()));
         }
         if (eventDTO.getCategories() != null && !eventDTO.getCategories().isEmpty()) {
             List<Category> categories = eventDTO.getCategories().stream()

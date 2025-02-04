@@ -72,7 +72,27 @@ public class Event {
     )
     private User owner;
 
+    @ManyToOne
+    @JoinColumn(
+            name = "member"
+    )
+    private User member;
 
+    @ManyToMany
+    @JoinTable(
+            name = "event_members",
+            joinColumns = @JoinColumn(name = "event_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
+    private List<User> members = new ArrayList<>();
+
+    public List<User> getMembers() {
+        return members;
+    }
+
+    public void setMembers(List<User> members) {
+        this.members = members;
+    }
 
     //GETTERS & SETTERS
     public Long getId() { return id; }
@@ -126,4 +146,7 @@ public class Event {
 
     public User getOwner() { return owner; }
     public void setOwner(User owner) { this.owner = owner; }
+
+    public User getMember() { return member; }
+    public void setMember(User member) { this.member = member; }
 }

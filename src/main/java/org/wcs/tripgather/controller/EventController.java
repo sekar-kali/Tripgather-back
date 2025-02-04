@@ -9,6 +9,7 @@ import org.wcs.tripgather.dto.EventDTO;
 import org.wcs.tripgather.service.EventService;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/events")
@@ -73,5 +74,20 @@ public class EventController {
         }
         return new ResponseEntity<>(filteredEvents, HttpStatus.OK);
     }
+
+    @PostMapping("/{eventId}")
+    public ResponseEntity<EventDTO> addMemberToEvent(
+            @PathVariable Long eventId,
+            @RequestBody Map<String, Long> request
+    ) {
+        Long userId = request.get("userId");
+        if (userId == null) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        EventDTO eventDTO = eventService.addMemberToEvent(eventId, userId);
+        return ResponseEntity.ok(eventDTO);
+    }
+
 
 }

@@ -29,8 +29,6 @@ public class EventDTO {
     private List<CategoryDTO> categories;
     private UserDTO owner;
 
-
-
     //Getters et Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }

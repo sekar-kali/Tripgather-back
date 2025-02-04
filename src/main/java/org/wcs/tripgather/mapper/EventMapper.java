@@ -36,10 +36,17 @@ public class EventMapper {
         eventDTO.setStartRegistration(event.getStartRegistration());
         eventDTO.setEndRegistration(event.getEndRegistration());
         eventDTO.setPrice(event.getPrice());
-        if (eventDTO.getOwner() != null && eventDTO.getOwner().getId() != null) {
-            User owner = new User();
-            owner.setId(eventDTO.getOwner().getId());
-            event.setOwner(owner);
+//        if (eventDTO.getOwner() != null && eventDTO.getOwner().getId() != null) {
+//            User owner = new User();
+//            owner.setId(eventDTO.getOwner().getId());
+//            event.setOwner(owner);
+//        }
+        if (event.getOwner() != null) {
+            UserDTO ownerDTO = new UserDTO();
+            ownerDTO.setId(event.getOwner().getId());
+            ownerDTO.setEmail(event.getOwner().getEmail());
+            ownerDTO.setCountry(event.getOwner().getCountry());
+            eventDTO.setOwner(ownerDTO);
         }
         eventDTO.setCreatedAt(event.getCreatedAt());
         eventDTO.setUpdatedAt(event.getUpdatedAt());
@@ -72,6 +79,11 @@ public class EventMapper {
         event.setPrice(eventDTO.getPrice());
         event.setMaxParticipant(eventDTO.getMaxParticipant());
         event.setImgUrl(eventDTO.getImgUrl());
+//        if (eventDTO.getOwner() != null && eventDTO.getOwner().getId() != null) {
+//            User owner = new User();
+//            owner.setId(eventDTO.getOwner().getId());
+//            event.setOwner(owner);
+//        }
         if (eventDTO.getOwner() != null && eventDTO.getOwner().getId() != null) {
             User owner = new User();
             owner.setId(eventDTO.getOwner().getId());

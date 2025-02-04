@@ -28,6 +28,7 @@ public class EventDTO {
     private List<String> imgUrl;
     private List<CategoryDTO> categories;
     private UserDTO owner;
+    private List<UserDTO> members;
 
     //Getters et Setters
     public Long getId() { return id; }
@@ -84,4 +85,12 @@ public class EventDTO {
 
     public UserDTO getOwner() { return owner; }
     public void setOwner(UserDTO owner) { this.owner = owner; }
+
+    public List<UserDTO> getMembers() {
+        return members;
+    }
+
+    public void setMembers(List<UserDTO> members) {
+        this.members = members;
+    }
 }

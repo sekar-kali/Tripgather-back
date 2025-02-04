@@ -107,6 +107,20 @@ public class EventService {
                 .collect(Collectors.toList());
     }
 
+    public EventDTO addMemberToEvent(Long eventId, Long userId) {
+        Event event = eventRepository.findById(eventId)
+                .orElseThrow(() -> new IllegalArgumentException("Événement non trouvé"));
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("Utilisateur non trouvé"));
+
+        if (!event.getMembers().contains(user)) {
+            event.getMembers().add(user);
+            eventRepository.save(event);
+        }
+
+        return eventMapper.convertToDTO(event);
+    }
 }
 
 

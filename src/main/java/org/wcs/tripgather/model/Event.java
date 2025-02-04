@@ -86,14 +86,6 @@ public class Event {
     )
     private List<User> members = new ArrayList<>();
 
-    public List<User> getMembers() {
-        return members;
-    }
-
-    public void setMembers(List<User> members) {
-        this.members = members;
-    }
-
     //GETTERS & SETTERS
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
@@ -147,6 +139,7 @@ public class Event {
     public User getOwner() { return owner; }
     public void setOwner(User owner) { this.owner = owner; }
 
-    public User getMember() { return member; }
-    public void setMember(User member) { this.member = member; }
+    public List<User> getMembers() {return members;}
+    public void setMembers(List<User> members) {this.members = members;}
+
 }

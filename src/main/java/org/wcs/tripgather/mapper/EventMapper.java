@@ -7,7 +7,9 @@ import org.wcs.tripgather.dto.UserDTO;
 import org.wcs.tripgather.model.Category;
 import org.wcs.tripgather.model.Event;
 import org.wcs.tripgather.model.User;
+import org.wcs.tripgather.model.Gender;
 import org.wcs.tripgather.repository.CategoryRepository;
+import org.wcs.tripgather.repository.EventRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,9 +20,11 @@ import java.util.stream.Collectors;
 public class EventMapper {
 
     private final CategoryRepository categoryRepository;
+    private final EventRepository eventRepository;
 
-    public EventMapper(CategoryRepository categoryRepository) {
+    public EventMapper(CategoryRepository categoryRepository, EventRepository eventRepository) {
         this.categoryRepository = categoryRepository;
+        this.eventRepository = eventRepository;
     }
 
     public EventDTO convertToDTO(Event event) {
@@ -36,11 +40,6 @@ public class EventMapper {
         eventDTO.setStartRegistration(event.getStartRegistration());
         eventDTO.setEndRegistration(event.getEndRegistration());
         eventDTO.setPrice(event.getPrice());
-//        if (eventDTO.getOwner() != null && eventDTO.getOwner().getId() != null) {
-//            User owner = new User();
-//            owner.setId(eventDTO.getOwner().getId());
-//            event.setOwner(owner);
-//        }
         if (event.getOwner() != null) {
             UserDTO ownerDTO = new UserDTO();
             ownerDTO.setId(event.getOwner().getId());
@@ -79,11 +78,6 @@ public class EventMapper {
         event.setPrice(eventDTO.getPrice());
         event.setMaxParticipant(eventDTO.getMaxParticipant());
         event.setImgUrl(eventDTO.getImgUrl());
-//        if (eventDTO.getOwner() != null && eventDTO.getOwner().getId() != null) {
-//            User owner = new User();
-//            owner.setId(eventDTO.getOwner().getId());
-//            event.setOwner(owner);
-//        }
         if (eventDTO.getOwner() != null && eventDTO.getOwner().getId() != null) {
             User owner = new User();
             owner.setId(eventDTO.getOwner().getId());
@@ -100,4 +94,10 @@ public class EventMapper {
         return event;
     }
 
+    public List<EventDTO> getFilteredEvents(String localisation, Gender gender,String title, String fromDate, String toDate) {
+        List<Event> filteredEvents = eventRepository.findFilteredEvents(localisation, gender,title, fromDate, toDate);  // Utilisation de l'instance
+        return filteredEvents.stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+    }
 }

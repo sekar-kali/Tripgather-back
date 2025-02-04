@@ -5,7 +5,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import org.wcs.tripgather.dto.CategoryDTO;
 import org.wcs.tripgather.dto.EventDTO;
 import org.wcs.tripgather.service.EventService;
 
@@ -59,6 +58,20 @@ public class EventController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @GetMapping("/filter")
+    public ResponseEntity<List<EventDTO>> getFilteredEvents(@RequestParam(required = false) String localisation,
+                                                            @RequestParam(required = false) String gender,
+                                                            @RequestParam(required = false) String title,
+                                                            @RequestParam(required = false) String fromDate,
+                                                            @RequestParam(required = false) String toDate) {
+        System.out.println("Filtrage avec : localisation=" + localisation + ", gender=" + gender + ", fromDate=" + fromDate + ", toDate=" + toDate);
+        List<EventDTO> filteredEvents = eventService.getFilteredEvents(localisation, gender,title, fromDate, toDate);
+        if (filteredEvents.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(filteredEvents, HttpStatus.OK);
     }
 
 }

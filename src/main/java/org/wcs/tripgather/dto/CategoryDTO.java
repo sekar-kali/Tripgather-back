@@ -17,8 +17,6 @@ public class CategoryDTO {
     @Size(min = 2, message = "Le nom est trop court (2 caractères ou plus)")
     private String name;
 
-
-
     //Getters et Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }

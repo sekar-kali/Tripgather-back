@@ -121,6 +121,14 @@ public class EventService {
 
         return eventMapper.convertToDTO(event);
     }
+
+    public List<EventDTO> getEventsByUserId(Long userId) {
+        List<Event> events = eventRepository.findEventsByUserId(userId);
+        return events.stream()
+                .map(eventMapper::convertToDTO)
+                .collect(Collectors.toList());
+    }
+
 }
 
 

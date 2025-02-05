@@ -89,5 +89,9 @@ public class EventController {
         return ResponseEntity.ok(eventDTO);
     }
 
-
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<EventDTO>> getEventsByUser(@PathVariable Long userId) {
+        List<EventDTO> events = eventService.getEventsByUserId(userId);
+        return ResponseEntity.ok(events);
+    }
 }

@@ -82,27 +82,61 @@ public class AuthController {
     }
 
 
-
     @PostMapping("/login")
-    public ResponseEntity<Map<String, String>> loginUser(@RequestBody User user) {
+    public ResponseEntity<Map<String, Object>> loginUser(@RequestBody User user) {
         try {
             User foundUser = userService.findByEmail(user.getEmail());
             if (foundUser != null && passwordEncoder.matches(user.getPassword(), foundUser.getPassword())) {
                 String token = jwtService.generateToken(foundUser);
-                Map<String, String> response = new HashMap<>();
+
+                Map<String, Object> response = new HashMap<>();
                 response.put("token", token);
+                response.put("user", Map.of(
+                        "id", foundUser.getId(),
+                        "firstName", foundUser.getFirstName(),
+                        "lastName", foundUser.getLastName(),
+                        "email", foundUser.getEmail(),
+                        "imageUrl", foundUser.getImageUrl(),
+                        "gender", foundUser.getGender().toString(), // Convertir Enum en String
+                        "bio", foundUser.getBio(),
+                        "country", foundUser.getCountry(),
+                        "birthDate", foundUser.getBirthDate() != null ? foundUser.getBirthDate().toString() : null
+                ));
+
                 return ResponseEntity.ok(response);
             } else {
-
-                Map<String, String> errorResponse = new HashMap<>();
+                Map<String, Object> errorResponse = new HashMap<>();
                 errorResponse.put("message", "Invalid email or password");
                 return ResponseEntity.status(401).body(errorResponse);
             }
         } catch (Exception e) {
-
-            Map<String, String> errorResponse = new HashMap<>();
+            Map<String, Object> errorResponse = new HashMap<>();
             errorResponse.put("message", "Error during login: " + e.getMessage());
             return ResponseEntity.badRequest().body(errorResponse);
         }
     }
+
+
+//    @PostMapping("/login")
+//    public ResponseEntity<Map<String, String>> loginUser(@RequestBody User user) {
+//        try {
+//            User foundUser = userService.findByEmail(user.getEmail());
+//            if (foundUser != null && passwordEncoder.matches(user.getPassword(), foundUser.getPassword())) {
+//                String token = jwtService.generateToken(foundUser);
+//                Map<String, String> response = new HashMap<>();
+//                response.put("token", token);
+//                return ResponseEntity.ok(response);
+//            } else {
+//
+//                Map<String, String> errorResponse = new HashMap<>();
+//                errorResponse.put("message", "Invalid email or password");
+//                return ResponseEntity.status(401).body(errorResponse);
+//            }
+//        } catch (Exception e) {
+//
+//            Map<String, String> errorResponse = new HashMap<>();
+//            errorResponse.put("message", "Error during login: " + e.getMessage());
+//            return ResponseEntity.badRequest().body(errorResponse);
+//        }
+//    }
 }

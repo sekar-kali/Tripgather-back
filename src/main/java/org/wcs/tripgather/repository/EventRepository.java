@@ -26,5 +26,8 @@ public interface EventRepository extends JpaRepository<Event, Long> {
             @Param("fromDate") String fromDate,
             @Param("toDate") String toDate
     );
+
+    @Query("SELECT e FROM Event e JOIN e.members m WHERE m.id = :userId")
+    List<Event> findEventsByUserId(@Param("userId") Long userId);
 }
 
